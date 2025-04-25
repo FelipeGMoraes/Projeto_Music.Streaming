@@ -2,38 +2,39 @@
 
 ## 📖 Descrição do Projeto
 
-O Projeto Music Streaming foi desenvolvido como parte do programa prático da Academia Database & Data Intelligence, com o objetivo de aplicar os conhecimentos adquiridos em diversos módulos, desde a concepção inicial até a implementação de uma solução tecnológica robusta.<br>
+O projeto **MusicStreaming Database** simula a base de dados de uma plataforma de streaming musical que funciona 24/7. Foi desenvolvido como parte prática da Academia Database & Data Intelligence, abordando desde a modelagem até estratégias avançadas de segurança, performance e relatórios.
 
-A proposta consiste em criar uma plataforma de streaming de música que funcione 24/7, garantindo o registro, manutenção e proteção dos dados de usuários, músicas, artistas, álbuns, editoras e gêneros musicais.<br>
+A solução contempla:
+- Modelagem e estruturação de entidades (usuários, músicas, artistas, álbuns, editoras, gêneros, etc.).
+- Segurança, permissões e criptografia.
+- Extração de relatórios e insights via SQL.
+- Técnicas de performance como particionamento e compressão de dados.
 
-Além disso, a solução deve ser capaz de gerar relatórios detalhados e atender aos requisitos de desempenho, segurança e conformidade com o RGPD (Regulamento Geral de Proteção de Dados).<br>
+## 🧱 Estrutura Principal
 
-## 📚 Documentação
+A documentação e scripts estão organizados por partes temáticas:
 
-- [Parte 1 - Modelação Inicial](database/01-modelagem/)
-  - [Modelo físico](database/01-modelagem/modelo-fisico.png)
-  - [Criação de Schema](database/01-modelagem/criacao-de-esquema.sql)
-  - [Inserção de Dados](database/01-modelagem/insercao-de-dados.sql)
+| Parte | Descrição |
+|-------|-----------|
+| [🧩 Modelagem Inicial](database/01-modelagem/) | Diagrama ER, criação de schema, inserção de dados |
+| [📊 Consultas e Relatórios](database/02-queries-relatorios/) | SQL para extração de insights |
+| [🔐 Segurança e Automatização](database/03-seguranca-automatizacao/) | Permissões, jobs, TDE, alertas |
+| [📈 Gestão Avançada](database/04-gestao-avancada/) | Views, triggers, compressão e particionamento |
 
-- [Parte 2 - Queries e Relatórios](database/02-queries-e-relatorios/)
-  - [Consultas - consultas-e-relatorios](database/02-queries-e-relatorios/consultas-e-relatorios.sql)
+✅ Para ver todos os arquivos organizados com links: [Leia a documentação completa](docs/readme-docs.md)
 
-- [Parte 3 - Segurança e Automatização](database/03-seguranca-e-automatizacao/)
-  - [Segurança e Jobs](database/03-seguranca-e-automatizacao/seguranca-e-agendamento.sql)
-  - [Procedures e Relatórios de Vulnerabilidade](database/03-seguranca-e-automatizacao/procedures-alertas-e-var.sql)
+## ⚙️ Tecnologias Utilizadas
 
-- [Parte 4 - Gestão Avançada de BD](database/04-performance-gestao/)
-  - [Gestão Avançada](database/04-performance-gestao/views-triggers.sql)
-  - [Particionamento e Compressão - 4.2.sql](database/04-performance-gestao/particionamento-e-compressao.sql)
+- **SQL Server**
+- **T-SQL**
+- **Diagrama ER (modelo físico)**
+
+## 🎯 Objetivo
+
+Aplicar boas práticas de banco de dados em um contexto realista, com foco em modelagem eficiente, segurança de dados, relatórios úteis e estratégias de gestão de performance.
 
 ---
 
-## 📌 Tecnologias
-
-- SQL Server
-- T-SQL
-- Modelagem de Banco de Dados
-
-## 📄 Objetivo
-
-Aplicar boas práticas de modelagem de dados, segurança, extração de informação e gestão avançada de uma base de dados de uma aplicação de streaming de música.
+🖼️ **Preview do Diagrama ER**  
+Clique na imagem para visualizar em tamanho completo:  
+[![Modelo Físico](database/01-modelagem/modelo-fisico.png)](database/01-modelagem/modelo-fisico.png)
