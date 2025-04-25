@@ -9,20 +9,20 @@ Projeto de criação e gestão de uma base de dados para uma aplicação de stre
 ## 📚 Documentação
 
 - [Parte 1 - Modelação Inicial](docs/parte-1-modelacao-inicial/)
-  - [Diagrama ER - Music.Streaming.png](docs/parte-1-modelacao-inicial/ER%20Music.Streaming.png)
-  - [Criação de Schema - Music.Streaming Schema.sql](docs/parte-1-modelacao-inicial/Music.Streaming%20Schema.sql)
-  - [Inserção de Dados - Music.Streaming Data.sql](docs/parte-1-modelacao-inicial/Music.Streaming%20Data.sql)
+  - [Modelo físico](docs/parte-1-modelacao-inicial/modelo-fisico.png)
+  - [Criação de Schema](docs/parte-1-modelacao-inicial/criacao-de-esquema.sql)
+  - [Inserção de Dados](docs/parte-1-modelacao-inicial/insercao-de-dados.sql)
 
 - [Parte 2 - Queries e Relatórios](docs/parte-2-queries-e-relatorios/)
-  - [Consultas - Music.Streaming Queries.sql](docs/parte-2-queries-e-relatorios/Music.Streaming%20Queries.sql)
+  - [Consultas - consultas-e-relatorios](docs/parte-2-queries-e-relatorios/consultas-e-relatorios.sql)
 
 - [Parte 3 - Segurança e Automatização](docs/parte-3-seguranca-e-automatizacao/)
-  - [Segurança e Jobs - 3.1.sql](docs/parte-3-seguranca-e-automatizacao/3.1.sql)
-  - [Procedures e Relatórios de Vulnerabilidade - 3.2.sql](docs/parte-3-seguranca-e-automatizacao/3.2.sql)
+  - [Segurança e Jobs](docs/parte-3-seguranca-e-automatizacao/seguranca-e-agendamento.sql)
+  - [Procedures e Relatórios de Vulnerabilidade](docs/parte-3-seguranca-e-automatizacao/procedures-alertas-e-var.sql)
 
-- [Parte 4 - Gestão Avançada de BD](docs/parte-4-gestao-avancada-bd/)
-  - [Gestão Avançada - 4.1.sql](docs/parte-4-gestao-avancada-bd/4.1.sql)
-  - [Particionamento e Compressão - 4.2.sql](docs/parte-4-gestao-avancada-bd/4.2.sql)
+- [Parte 4 - Gestão Avançada de BD](docs/parte-4-performance-gestao/)
+  - [Gestão Avançada](docs/parte-4-performance-gestao/views-triggers.sql)
+  - [Particionamento e Compressão - 4.2.sql](docs/parte-4-performance-gestao/particionamento-e-compressao.sql)
 
 ---
 
