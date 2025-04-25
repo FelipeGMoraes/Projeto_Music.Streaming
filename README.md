@@ -1,40 +1,37 @@
-# MusicStreaming Database Project 🎶
+# 🎵 MusicStreaming Database
 
-Este projeto simula a construção e a gestão de uma base de dados para uma plataforma de streaming de música. Desenvolvido como parte do percurso **Administrador de Base de Dados**, o projeto abrange desde a modelagem até a performance e segurança da base de dados.
+Projeto de criação e gestão de uma base de dados para uma aplicação de streaming de música.
 
-## 🗂️ Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
-- **docs/**
-  - Diagramas e documentação complementar.
-- **database/**
-  - Scripts SQL organizados por fase do projeto.
+- [docs/](docs/) — Documentação técnica e scripts de apoio.
 
-## 📚 Conteúdo
+## 📚 Documentação
 
-### 1. Modelagem da Base de Dados
-- Definição do modelo físico.
-- Scripts de criação de schema e inserção de dados.
+- [Parte 1 - Modelação Inicial](docs/parte-1-modelacao-inicial/)
+  - [Diagrama ER - Music.Streaming.png](docs/parte-1-modelacao-inicial/ER%20Music.Streaming.png)
+  - [Criação de Schema - Music.Streaming Schema.sql](docs/parte-1-modelacao-inicial/Music.Streaming%20Schema.sql)
+  - [Inserção de Dados - Music.Streaming Data.sql](docs/parte-1-modelacao-inicial/Music.Streaming%20Data.sql)
 
-### 2. Queries e Relatórios
-- Desenvolvimento de consultas SQL para extração de relatórios.
+- [Parte 2 - Queries e Relatórios](docs/parte-2-queries-e-relatorios/)
+  - [Consultas - Music.Streaming Queries.sql](docs/parte-2-queries-e-relatorios/Music.Streaming%20Queries.sql)
 
-### 3. Segurança e Automatização
-- Implementação de backups automáticos, gestão de permissões, Dynamic Data Masking (DDM).
-- Configuração de jobs e alertas de eventos.
+- [Parte 3 - Segurança e Automatização](docs/parte-3-seguranca-e-automatizacao/)
+  - [Segurança e Jobs - 3.1.sql](docs/parte-3-seguranca-e-automatizacao/3.1.sql)
+  - [Procedures e Relatórios de Vulnerabilidade - 3.2.sql](docs/parte-3-seguranca-e-automatizacao/3.2.sql)
 
-### 4. Performance e Gestão Avançada
-- Utilização de Views, Triggers.
-- Particionamento ,compressão de dados e tabelas In-Memory.
-- Verificação de integridade e práticas de otimização.
+- [Parte 4 - Gestão Avançada de BD](docs/parte-4-gestao-avancada-bd/)
+  - [Gestão Avançada - 4.1.sql](docs/parte-4-gestao-avancada-bd/4.1.sql)
+  - [Particionamento e Compressão - 4.2.sql](docs/parte-4-gestao-avancada-bd/4.2.sql)
 
-## 🚀 Como usar
+---
 
-1. Clonar o repositório.
-2. Executar os scripts da pasta `database/` na ordem numérica sugerida.
-3. Consultar o diagrama na pasta `docs/diagramas/` para referência visual do modelo.
+## 📌 Tecnologias
 
-## 📷 Diagrama
+- SQL Server
+- T-SQL
+- Modelagem de Banco de Dados
 
-O modelo Entidade-Relacionamento pode ser encontrado em:
-- `docs/diagramas/modelo-fisico.png`
+## 📄 Objetivo
 
+Aplicar boas práticas de modelagem de dados, segurança, extração de informação e gestão avançada de uma base de dados de uma aplicação de streaming de música.
