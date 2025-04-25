@@ -11,9 +11,9 @@ Além disso, a solução deve ser capaz de gerar relatórios detalhados e atende
 ## 📚 Documentação
 
 - [Parte 1 - Modelação Inicial](database/01-modelagem/)
-  - [Modelo físico](database/parte-01-modelagem/modelo-fisico.png)
-  - [Criação de Schema](database/parte-01-modelagem/criacao-de-esquema.sql)
-  - [Inserção de Dados](database/parte-01-modelagem/insercao-de-dados.sql)
+  - [Modelo físico](database/01-modelagem/modelo-fisico.png)
+  - [Criação de Schema](database/01-modelagem/criacao-de-esquema.sql)
+  - [Inserção de Dados](database/01-modelagem/insercao-de-dados.sql)
 
 - [Parte 2 - Queries e Relatórios](database/02-queries-e-relatorios/)
   - [Consultas - consultas-e-relatorios](database/02-queries-e-relatorios/consultas-e-relatorios.sql)
