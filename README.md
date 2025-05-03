@@ -10,11 +10,11 @@ A solução contempla:
 - Extração de relatórios e insights via SQL.
 - Técnicas de performance como particionamento e compressão de dados.
 
-## Estrutura Principal
+## Organização da Documentação
 
 A documentação e scripts estão organizados por partes temáticas:
 
-| Parte | Descrição |
+| Seção | Descrição |
 |-------|-----------|
 | [Modelagem Inicial](database/01-modelagem/) | Diagrama ER, criação de schema, inserção de dados |
 | [Consultas e Relatórios](database/02-queries-relatorios/) | SQL para extração de insights |
