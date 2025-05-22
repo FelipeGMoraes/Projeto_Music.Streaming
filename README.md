@@ -18,8 +18,8 @@ A documentação e scripts estão organizados por partes temáticas:
 |-------|-----------|
 | [Modelagem Inicial](database/01-modelagem/) | Diagrama ER, criação de schema, inserção de dados |
 | [Consultas e Relatórios](database/02-queries-relatorios/) | SQL para extração de insights |
-| [Segurança e Automatização](database/03-seguranca-automatizacao/) | Permissões, jobs, TDE, alertas |
-| [Gestão Avançada](database/04-gestao-avancada/) | Views, triggers, compressão e particionamento |
+| [Segurança e Automatização](database/03-seguranca-automacao/) | Permissões, jobs, TDE, alertas |
+| [Gestão Avançada](database/04-performance-gestao/) | Views, triggers, compressão e particionamento |
 
 ✅ Para ver todos os arquivos organizados com links: [Leia a documentação completa](docs/readme-docs.md)
 
