@@ -16,14 +16,13 @@ SELECT Name AS Label
 FROM dbo.Labels
 ORDER BY Name;
 
--- 4 Lista alfabética de artistas, por países
+-- 4 Lista alfabética de artistas por países
 
 SELECT A.Name AS Artists, L.Country
 FROM dbo.Artists A
 JOIN dbo.Location L ON A.LocationID = L.LocationID
 ORDER BY L.Country, A.Name;
 
--- 5 Lista alfabética de banda, gravadoras, gênero, nome do álbum
 -- 5 Lista alfabética de artistas, gravadoras, gênero, nome do álbum
 
 SELECT A.Name AS Artists, L.Name AS LabelName, G.Name AS GenreName, Al.Name AS AlbumName
@@ -52,7 +51,6 @@ GROUP BY A.Name
 ORDER BY AlbumCount DESC;
 
 -- 8 Lista das 5 gravadoras com mais álbuns
--- 8 Lista das 5 gravadoras com mais álbuns
 
 SELECT TOP 5 L.Name AS LabelName, COUNT(Al.AlbumID) AS AlbumCount
 FROM dbo.Albums Al
@@ -68,14 +66,12 @@ JOIN dbo.Genre G ON S.GenreID = G.GenreID
 GROUP BY G.Name
 ORDER BY AlbumCount DESC;
 
--- 10 Lista dos 20 músicas mais longos por álbum
--- 10 Lista das 20 músicas mais longas, por albúm
+-- 10 Lista das 20 músicas mais longas por albúm
 
 SELECT TOP 20 S.Title AS SongTitle, S.Duration
 FROM dbo.Songs S
 ORDER BY S.Duration DESC;
 
--- 11 Lista das 20 músicas mais rápidas, por albúm
 -- 11 Lista das 20 músicas mais rápidas por álbum
 
 SELECT TOP 20 S.Title AS SongTitle, S.Duration
@@ -91,7 +87,6 @@ GROUP BY Al.Name
 ORDER BY DuracaoTotalEmSegundos DESC;
 
 -- 13 Quantas músicas tem em cada álbum?
--- 13 Quantos músicas tem em cada álbuns
 
 SELECT Al.Name AS AlbumName, COUNT(S.SongID) AS SongCount
 FROM dbo.Songs S
@@ -99,15 +94,13 @@ JOIN dbo.Albums Al ON S.AlbumID = Al.AlbumID
 GROUP BY Al.Name
 ORDER BY SongCount DESC;
 
--- 14 Quantas músicas demoram mais que 5 minutos, por albúm?
--- 14 Quantas músicas demoram mais que 5 minutos por álbum
+-- 14 Quantas músicas demoram mais que 5 minutos por albúm?
 
 SELECT COUNT(S.SongID) AS SongsOver5Min
 FROM dbo.Songs S
 WHERE S.Duration > '00:05:00';
 
 -- 15 Quais são as músicas mais ouvidas?
--- 15 Quais são as músicas mais ouvidas
 
 SELECT S.Title AS SongTitle, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
