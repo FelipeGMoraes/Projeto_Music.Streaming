@@ -1,4 +1,5 @@
 
+-- Tabela para registrar reproduções de músicas
 CREATE TABLE dbo.SongPlays
 (
 SongPlayID [int] IDENTITY(1,1) NOT NULL,
@@ -13,6 +14,7 @@ Longitude nvarchar(20) NOT NULL
 )
 GO
 
+-- Tabela para armazenar informações sobre álbuns
 CREATE TABLE dbo.Albums
 (
 AlbumID int not null IDENTITY (1,1),
@@ -23,6 +25,7 @@ LabelID int not null
 )
 GO
 
+-- Tabela para armazenar informações sobre músicas
 CREATE TABLE dbo.Songs
 (
 SongID int not null IDENTITY (1,1),
@@ -35,6 +38,7 @@ GenreID int not null
 )
 GO
 
+-- Tabela para armazenar gêneros musicais
 CREATE TABLE dbo.Genre
 (
 GenreID int not null IDENTITY (1,1),
@@ -42,6 +46,7 @@ GenreID int not null IDENTITY (1,1),
 )
 GO
 
+-- Tabela para armazenar informações sobre localizações
 CREATE TABLE dbo. Location
 (
 LocationID int not null IDENTITY (1,1),
@@ -50,6 +55,7 @@ Country nvarchar(50) not null
 )
 GO
 
+-- Tabela para armazenar informações sobre usuários
 CREATE TABLE dbo.Users
 (
 UserID int not null IDENTITY (1,1),
@@ -64,6 +70,7 @@ LocationID int not null
 )
 GO
 
+-- Tabela para armazenar informações sobre gravadoras
 CREATE TABLE dbo.Labels
 (
 LabelID int not null IDENTITY (1,1),
@@ -72,6 +79,7 @@ LocationID int not null
 )
 GO
 
+-- Tabela para armazenar informações sobre artistas
 CREATE TABLE dbo.Artists
 (
 ArtistID int not null IDENTITY (1,1),
@@ -81,6 +89,7 @@ LocationID int not null
 )
 GO
 
+-- Adicionar chaves estrangeiras para relacionar tabelas e garantir a integridade referencial
 
 ALTER TABLE dbo.Users
 ADD CONSTRAINT PK_Users_UserID
@@ -122,7 +131,7 @@ ADD CONSTRAINT PK_Artists_ArtistID
 PRIMARY KEY CLUSTERED (ArtistID ASC)
 GO
 
-
+-- Adicionar chaves estrangeiras para relacionar tabelas e garantir a integridade referencial entre elas
 ALTER TABLE dbo.Users
 ADD CONSTRAINT FK_LocationID FOREIGN KEY (LocationID)
 REFERENCES dbo.Location (LocationID)
