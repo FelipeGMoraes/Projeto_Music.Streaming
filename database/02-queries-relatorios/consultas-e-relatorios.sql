@@ -1,30 +1,31 @@
--- Relatórios
+-- Relatórios e Consultas para análise do MusicStreaming
 
--- 1 Lista alfabética de utilizadores
+-- 1. Lista alfabética de utilizadores
+-- Retorna todos os usuários ordenados por nome e sobrenome
 SELECT FirstName, LastName
 FROM dbo.Users
 ORDER BY FirstName, LastName;
 
--- 2 Lista alfabética de gênero musicais
+-- 2. Lista alfabética de gêneros musicais
+-- Útil para exibir todos os gêneros cadastrados
 SELECT Name AS Genre
 FROM dbo.Genre
 ORDER BY Name;
 
--- 3 Lista alfabética de gravadoras
-
+-- 3. Lista alfabética de gravadoras
 SELECT Name AS Label
 FROM dbo.Labels
 ORDER BY Name;
 
--- 4 Lista alfabética de artistas por países
-
+-- 4. Lista alfabética de artistas por países
+-- Mostra artistas agrupados por país de origem
 SELECT A.Name AS Artists, L.Country
 FROM dbo.Artists A
 JOIN dbo.Location L ON A.LocationID = L.LocationID
 ORDER BY L.Country, A.Name;
 
--- 5 Lista alfabética de artistas, gravadoras, gênero, nome do álbum
-
+-- 5. Lista alfabética de artistas, gravadoras, gênero, nome do álbum
+-- Útil para relatórios de catálogo
 SELECT A.Name AS Artists, L.Name AS LabelName, G.Name AS GenreName, Al.Name AS AlbumName
 FROM dbo.Albums Al
 JOIN dbo.Artists A ON Al.ArtistID = A.ArtistID
@@ -34,82 +35,72 @@ JOIN dbo.Genre G ON S.GenreID = G.GenreID
 GROUP BY A.Name, L.Name, G.Name, Al.Name
 ORDER BY Artists, LabelName, GenreName, AlbumName;
 
--- 6 Lista dos 5 países com mais bandas
-
+-- 6. Lista dos 5 países com mais bandas
 SELECT TOP 5 L.Country, COUNT(A.ArtistID) AS BandCount
 FROM dbo.Artists A
 JOIN dbo.Location L ON A.LocationID = L.LocationID
 GROUP BY L.Country
 ORDER BY BandCount DESC;
 
--- 7 Lista das 10 bandas com mais álbuns
-
+-- 7. Lista das 10 bandas com mais álbuns
 SELECT TOP 10 A.Name AS Artists, COUNT(Al.AlbumID) AS AlbumCount
 FROM dbo.Albums Al
 JOIN dbo.Artists A ON Al.ArtistID = A.ArtistID
 GROUP BY A.Name
 ORDER BY AlbumCount DESC;
 
--- 8 Lista das 5 gravadoras com mais álbuns
-
+-- 8. Lista das 5 gravadoras com mais álbuns
 SELECT TOP 5 L.Name AS LabelName, COUNT(Al.AlbumID) AS AlbumCount
 FROM dbo.Albums Al
 JOIN dbo.Labels L ON Al.LabelID = L.LabelID
 GROUP BY L.Name
 ORDER BY AlbumCount DESC;
 
--- 9 Lista dos 5 gêneros musicais com mais álbuns
-
+-- 9. Lista dos 5 gêneros musicais com mais álbuns
 SELECT TOP 5 G.Name AS GenreName, COUNT(S.AlbumID) AS AlbumCount
 FROM dbo.Songs S
 JOIN dbo.Genre G ON S.GenreID = G.GenreID
 GROUP BY G.Name
 ORDER BY AlbumCount DESC;
 
--- 10 Lista das 20 músicas mais longas por albúm
-
+-- 10. Lista das 20 músicas mais longas por álbum
 SELECT TOP 20 S.Title AS SongTitle, S.Duration
 FROM dbo.Songs S
 ORDER BY S.Duration DESC;
 
--- 11 Lista das 20 músicas mais rápidas por álbum
-
+-- 11. Lista das 20 músicas mais rápidas por álbum
 SELECT TOP 20 S.Title AS SongTitle, S.Duration
 FROM dbo.Songs S
 ORDER BY S.Duration ASC;
 
---12 Lista dos 10 álbuns que demoram mais tempo
-
+-- 12. Lista dos 10 álbuns que demoram mais tempo (soma das durações das músicas)
 SELECT TOP 10 Al.Name AS AlbumName, SUM(DATEDIFF(SECOND, '00:00:00', S.Duration)) AS DuracaoTotalEmSegundos
 FROM dbo.Songs S
 JOIN dbo.Albums Al ON S.AlbumID = Al.AlbumID
 GROUP BY Al.Name
 ORDER BY DuracaoTotalEmSegundos DESC;
 
--- 13 Quantas músicas tem em cada álbum?
-
+-- 13. Quantas músicas tem em cada álbum?
 SELECT Al.Name AS AlbumName, COUNT(S.SongID) AS SongCount
 FROM dbo.Songs S
 JOIN dbo.Albums Al ON S.AlbumID = Al.AlbumID
 GROUP BY Al.Name
 ORDER BY SongCount DESC;
 
--- 14 Quantas músicas demoram mais que 5 minutos por albúm?
-
+-- 14. Quantas músicas demoram mais que 5 minutos por álbum?
 SELECT COUNT(S.SongID) AS SongsOver5Min
 FROM dbo.Songs S
 WHERE S.Duration > '00:05:00';
 
--- 15 Quais são as músicas mais ouvidas?
-
+-- 15. Quais são as músicas mais ouvidas?
+-- Útil para relatórios de popularidade
 SELECT S.Title AS SongTitle, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID
 GROUP BY S.Title
 ORDER BY PlayCount DESC;
 
--- 16 Músicas mais ouvidas, por países, entre 00:00 e 08:00
-
+-- 16. Músicas mais ouvidas, por países, entre 00:00 e 08:00
 SELECT S.Title AS SongTitle, L.Country, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID
@@ -118,8 +109,7 @@ WHERE CAST(SP.StartTime AS TIME) BETWEEN '00:00:00' AND '08:00:00'
 GROUP BY S.Title, L.Country
 ORDER BY L.Country, PlayCount DESC;
 
--- 17 Músicas mais ouvidas, por países, entre 08:00 e 16:00
-
+-- 17. Músicas mais ouvidas, por países, entre 08:00 e 16:00
 SELECT S.Title AS SongTitle, L.Country, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID
@@ -128,8 +118,8 @@ WHERE CAST(SP.StartTime AS TIME) BETWEEN '08:00:00' AND '16:00:00'
 GROUP BY S.Title, L.Country
 ORDER BY L.Country, PlayCount DESC;
 
--- 18 Qual o gênero musical mais ouvido por países? 
-
+-- 18. Qual o gênero musical mais ouvido por países?
+-- Consulta avançada para identificar preferências regionais
 SELECT L.Country, G.Name AS GenreName, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID
@@ -149,8 +139,7 @@ HAVING COUNT(SP.SongPlayID) = (SELECT MAX(PlayCount)
 )
 ORDER BY L.Country, PlayCount DESC;
 
--- 19 Qual o gênero musical mais ouvido por países, entre as 00AM e as 08AM? 
-
+-- 19. Qual o gênero musical mais ouvido por países, entre as 00AM e as 08AM?
 SELECT L.Country, G.Name AS GenreName, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID
@@ -172,8 +161,7 @@ HAVING COUNT(SP.SongPlayID) = (
     WHERE SubQuery.Country = L.Country
 )
 
--- 20 Qual o gênero musical mais ouvido por países, entre as 16:00 e as 24:00? 
-
+-- 20. Qual o gênero musical mais ouvido por países, entre as 16:00 e as 24:00?
 SELECT L.Country, G.Name AS GenreName, COUNT(SP.SongPlayID) AS PlayCount
 FROM dbo.SongPlays SP
 JOIN dbo.Songs S ON SP.SongID = S.SongID

@@ -1,30 +1,25 @@
--- Realizar o backup completo da base de dados
+-- Backup completo da base de dados
 BACKUP DATABASE [Music.Streaming]
 TO DISK = 'C:\Backups\MusicStreaming_Full.bak'
 WITH FORMAT, INIT, NAME = 'Backup Full Music.Streaming', 
 STATS = 10;
 GO
 
-
--- Criar um Job para backup agendado
+-- Criação de Job para backup agendado
 USE msdb;
 GO
-
--- Adicionar o Job
-EXEC sp_add_job
-    @job_name = 'BackupJob';
+-- Adiciona o Job
+EXEC sp_add_job @job_name = 'BackupJob';
 GO
-
--- Adicionar um passo ao Job
+-- Adiciona um passo ao Job
 EXEC sp_add_jobstep
     @job_name = 'BackupJob',
     @step_name = 'BackupStep',
     @subsystem = 'TSQL',
-    @command = 'BACKUP DATABASE [Music.Streaming] TO DISK = ''<CAMINHO_DO_BACKUP>\MusicStreaming_Scheduled.bak'' WITH INIT;',
+    @command = 'BACKUP DATABASE [Music.Streaming] TO DISK = ''<CAMINHO_DO_BACKUP>\\MusicStreaming_Scheduled.bak'' WITH INIT;',
     @on_success_action = 1;
 GO
-
--- Criar um agendamento para o Job
+-- Cria agendamento para o Job (dias úteis, a cada 12h)
 EXEC sp_add_schedule
     @schedule_name = 'WeekdaySchedule',
     @freq_type = 4,
@@ -32,34 +27,30 @@ EXEC sp_add_schedule
     @freq_subday_type = 8,
     @freq_subday_interval = 12; 
 GO
-
--- Associar o agendamento ao Job
+-- Associa o agendamento ao Job
 EXEC sp_attach_schedule
     @job_name = 'BackupJob',
     @schedule_name = 'WeekdaySchedule';
 GO
-
--- Associar o job ao servidor de jobs padrão
+-- Associa o job ao servidor padrão
 EXEC msdb.dbo.sp_add_jobserver
     @job_name = 'BackupJob',
-    @server_name = N'(LOCAL)'; -- Substitua por um nome de servidor específico, se necessário
+    @server_name = N'(LOCAL)'; -- Substitua por nome de servidor específico, se necessário
 GO
 
--- Criar usuários e permissões
--- Criar os logins no servidor (se ainda não existirem)
+-- Criação de logins e usuários com permissões específicas
+-- ATENÇÃO: Nunca versionar senhas reais. Use placeholders em produção.
 IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = 'CantListenLogin')
     CREATE LOGIN CantListenLogin WITH PASSWORD = 'StrongPassword123!';
 GO
-
 IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = 'CanCreatePlaylistsLogin')
     CREATE LOGIN CanCreatePlaylistsLogin WITH PASSWORD = 'StrongPassword123!';
 GO
-
 IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = 'SeeDataMaskedUsrLogin')
     CREATE LOGIN SeeDataMaskedUsrLogin WITH PASSWORD = 'StrongPassword123!';
 GO
 
--- Criar o usuário CantListen com permissões DENY
+-- Usuário CantListen: nega SELECT
 USE [Music.Streaming];
 GO
 IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = 'CantListen')
@@ -68,16 +59,14 @@ BEGIN
     DENY SELECT ON DATABASE::[Music.Streaming] TO CantListen;
 END;
 GO
-
--- Criar o usuário CanCreatePlaylists com permissões de leitura e escrita
+-- Usuário CanCreatePlaylists: leitura e escrita
 IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = 'CanCreatePlaylists')
 BEGIN
     CREATE USER CanCreatePlaylists FOR LOGIN CanCreatePlaylistsLogin;
     GRANT SELECT, INSERT, UPDATE, DELETE ON DATABASE::[Music.Streaming] TO CanCreatePlaylists;
 END;
 GO
-
--- Criar o usuário SeeDataMaskedUsr com permissões de leitura
+-- Usuário SeeDataMaskedUsr: apenas leitura
 IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = 'SeeDataMaskedUsr')
 BEGIN
     CREATE USER SeeDataMaskedUsr FOR LOGIN SeeDataMaskedUsrLogin;
@@ -85,8 +74,8 @@ BEGIN
 END;
 GO
 
--- Aplicar Dynamic Data Masking (DDM) na tabela UserDM
--- Criar a tabela UserDM se ela não existir
+-- Dynamic Data Masking (DDM) na tabela UserDM
+-- Cria a tabela UserDM se não existir
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'UserDM' AND schema_id = SCHEMA_ID('dbo'))
 BEGIN
     CREATE TABLE dbo.UserDM (
@@ -96,18 +85,17 @@ BEGIN
     );
 END;
 GO
-
--- Aplicar mascaramento dinâmico
-ALTER TABLE dbo.UserDM
-ALTER COLUMN Nome ADD MASKED WITH (FUNCTION = 'default()');
+-- Aplica mascaramento dinâmico
+ALTER TABLE dbo.UserDM ALTER COLUMN Nome ADD MASKED WITH (FUNCTION = 'default()');
+GO
+ALTER TABLE dbo.UserDM ALTER COLUMN Email ADD MASKED WITH (FUNCTION = 'email()');
 GO
 
-ALTER TABLE dbo.UserDM
-ALTER COLUMN Email ADD MASKED WITH (FUNCTION = 'email()');
-GO
+-- Exemplo de consulta mascarada:
+-- SELECT * FROM dbo.UserDM WHERE UserID = 1;
 
--- Criar um JOB que depende de uma Stored Procedure
--- Exemplo de Stored Procedure
+-- Criação de JOB dependente de Stored Procedure
+-- Exemplo de Stored Procedure para listar jobs e agendamentos
 CREATE PROCEDURE ListJobsAndSchedules
     @JobName NVARCHAR(100),
     @DataInicial DATETIME,
@@ -129,3 +117,5 @@ BEGIN
       AND CAST(CONVERT(DATETIME, CAST(schedule.active_end_date AS CHAR(8)), 112) AS DATETIME) <= @DataFinal;
 END;
 GO
+-- Exemplo de uso:
+-- EXEC ListJobsAndSchedules @JobName = 'BackupJob', @DataInicial = '2024-01-01', @DataFinal = '2024-12-31';
