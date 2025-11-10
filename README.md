@@ -67,7 +67,7 @@ A documentação e scripts estão organizados por partes temáticas:
 | [Segurança e Automatização](database/03-seguranca-automacao/) | Permissões, jobs, TDE, alertas |
 | [Gestão Avançada](database/04-performance-gestao/) | Views, triggers, compressão e particionamento |
 
-✅ Para ver todos os arquivos organizados com links: [Leia a documentação completa](docs/readme-docs.md)
+Para ver todos os arquivos organizados com links: [Leia a documentação completa](docs/readme-docs.md)
 
 ## Tecnologias Utilizadas
 
