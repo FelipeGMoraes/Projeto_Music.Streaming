@@ -1,86 +1,160 @@
 # MusicStreaming Database
 
-## Descrição do Projeto
+Banco de dados relacional completo simulando o backend de dados de uma plataforma de **music streaming 24/7**, desenvolvido com SQL Server 2019 e T-SQL.
 
-O projeto **MusicStreaming Database** simula a base de dados de uma plataforma de streaming musical 24/7. Desenvolvido como parte prática da Academia Database & Data Intelligence, aborda desde a modelagem até estratégias avançadas de segurança, performance e relatórios.
-
-A solução contempla:
-- Modelagem e estruturação de entidades (usuários, músicas, artistas, álbuns, editoras, gêneros, etc.).
-- Segurança, permissões e criptografia.
-- Extração de relatórios e insights via SQL.
-- Técnicas de performance como particionamento e compressão de dados.
-
-## Pré-requisitos
-
-- **SQL Server 2019+** (ou compatível)
-- **SQL Server Management Studio (SSMS)** ou ferramenta similar
-- Permissões de administrador para criação de banco, usuários e jobs
-
-## Instruções de Execução
-
-1. **Modelagem e Dados**
-   - Execute `database/01-modelagem/criacao-de-esquema.sql` para criar as tabelas e relacionamentos.
-   - Execute `database/01-modelagem/insercao-de-dados.sql` para popular as tabelas.
-2. **Consultas e Relatórios**
-   - Utilize `database/02-queries-relatorios/consultas-e-relatorios.sql` para gerar relatórios e análises.
-3. **Segurança e Automatização**
-   - Execute `database/03-seguranca-automacao/procedures-var-tde.sql` para criar procedures de segurança, análise de vulnerabilidades e criptografia (TDE).
-   - Execute `database/03-seguranca-automacao/seguranca-agendamento.sql` para criar usuários, permissões, aplicar mascaramento e agendar backups.
-4. **Gestão Avançada e Performance**
-   - Execute `database/04-performance-gestao/particionamento-compressao.sql` para aplicar particionamento e compressão.
-   - Execute `database/04-performance-gestao/temp-tables-views-triggers.sql` para exemplos de views, triggers e tabelas temporárias.
-
-> **Dica:** Consulte a [documentação técnica detalhada](docs/readme-docs.md) para links diretos e explicações de cada script.
-
-## Exemplos de Uso
-
-- Consultar as 10 músicas mais tocadas:
-
-  SELECT TOP 10 TituloMusica, TotalReproducoes FROM #ContagemReproducoesPorMusica ORDER BY TotalReproducoes DESC;
-
-- Executar procedure de auditoria de jobs:
-
-  EXEC ListJobsAndSchedules @JobName = 'BackupJob', @DataInicial = '2024-01-01', @DataFinal = '2024-12-31';
-
-- Consultar dados mascarados:
-  
-  SELECT * FROM dbo.UserDM;
-  
-
-## Boas Práticas e Recomendações
-
-- **Senhas:** Nunca versionar senhas reais em scripts. Use placeholders e altere para senhas seguras em produção.
-- **Backup:** Sempre faça backup do certificado e chave mestra ao usar TDE.
-- **Permissões:** Conceda apenas as permissões necessárias para cada usuário.
-- **Auditoria:** Utilize triggers e logs para rastrear alterações em dados sensíveis.
-- **Performance:** Execute `DBCC CHECKDB` regularmente e monitore índices e partições.
-- **Documentação:** Consulte os comentários nos scripts para entender cada etapa e exemplo de uso.
-
-## Organização da Documentação
-
-A documentação e scripts estão organizados por partes temáticas:
-
-| Seção | Descrição |
-|-------|-----------|
-| [Modelagem Inicial](database/01-modelagem/) | Diagrama ER, criação de schema, inserção de dados |
-| [Consultas e Relatórios](database/02-queries-relatorios/) | SQL para extração de insights |
-| [Segurança e Automatização](database/03-seguranca-automacao/) | Permissões, jobs, TDE, alertas |
-| [Gestão Avançada](database/04-performance-gestao/) | Views, triggers, compressão e particionamento |
-
-Para ver todos os arquivos organizados com links: [Leia a documentação completa](docs/readme-docs.md)
-
-## Tecnologias Utilizadas
-
-- **SQL Server**
-- **T-SQL**
-- **Diagrama ER (modelo físico)**
-
-## Objetivo
-
-Aplicar boas práticas de banco de dados em um contexto realista, com foco em modelagem eficiente, segurança de dados, relatórios úteis e estratégias de gestão de performance.
+O projeto cobre o ciclo completo de gestão de banco de dados em ambiente de produção: modelagem relacional, extração de insights de negócio, segurança enterprise e otimização de performance.
 
 ---
 
-**Preview do Diagrama ER**  
-Clique na imagem para visualizar em tamanho completo:  
+## Destaques técnicos
+
+| Área | O que foi implementado |
+|---|---|
+| Modelagem | Diagrama ER com 8 tabelas: Songs, Artists, Albums, Genre, Users, Labels, Location e SongPlays |
+| Consultas e relatórios | Queries analíticas para extração de insights de negócio via T-SQL |
+| Segurança | TDE (Transparent Data Encryption), mascaramento dinâmico de dados (DDM), controle granular de permissões |
+| Automatização | Backup automatizado com SQL Server Agent Jobs, stored procedures de auditoria e alertas |
+| Performance | Particionamento de tabelas por data, compressão de dados, views, triggers e tabelas temporárias |
+
+---
+
+## Estrutura do projeto
+
+```
+Projeto_Music.Streaming/
+├── database/
+│   ├── 01-modelagem/
+│   │   ├── criacao-de-esquema.sql       # DDL: tabelas, PKs, FKs, constraints
+│   │   ├── insercao-de-dados.sql        # DML: dados de exemplo
+│   │   └── modelo-fisico.png            # Diagrama ER (modelo físico)
+│   ├── 02-queries-relatorios/
+│   │   └── consultas-e-relatorios.sql   # Queries analíticas e relatórios
+│   ├── 03-seguranca-automacao/
+│   │   ├── procedures-var-tde.sql       # Stored procedures, TDE, auditoria
+│   │   └── seguranca-agendamento.sql    # Usuários, permissões, DDM, jobs de backup
+│   └── 04-performance-gestao/
+│       ├── particionamento-compressao.sql  # Particionamento por data e compressão
+│       └── temp-tables-views-triggers.sql  # Views, triggers, tabelas temporárias
+├── docs/
+│   ├── readme-docs.md                   # Documentação técnica detalhada
+│   └── insights-negocios.md             # Perguntas de negócio respondidas com SQL
+└── README.md
+```
+
+---
+
+## Pré-requisitos
+
+- SQL Server 2019 ou superior
+- SQL Server Management Studio (SSMS) ou ferramenta equivalente
+- Permissões de administrador para criação de banco, usuários e jobs
+
+---
+
+## Como executar
+
+Execute os scripts na ordem abaixo:
+
+**1. Modelagem e dados**
+```sql
+-- Criar tabelas e relacionamentos
+database/01-modelagem/criacao-de-esquema.sql
+
+-- Popular com dados de exemplo
+database/01-modelagem/insercao-de-dados.sql
+```
+
+**2. Consultas e relatórios**
+```sql
+-- Relatórios analíticos prontos para uso
+database/02-queries-relatorios/consultas-e-relatorios.sql
+```
+
+**3. Segurança e automação**
+```sql
+-- Criptografia TDE, procedures e auditoria
+database/03-seguranca-automacao/procedures-var-tde.sql
+
+-- Usuários, permissões, mascaramento e backup automatizado
+database/03-seguranca-automacao/seguranca-agendamento.sql
+```
+
+**4. Performance e gestão avançada**
+```sql
+-- Particionamento por data e compressão de dados
+database/04-performance-gestao/particionamento-compressao.sql
+
+-- Views, triggers e tabelas temporárias
+database/04-performance-gestao/temp-tables-views-triggers.sql
+```
+
+---
+
+## Exemplos de uso
+
+**Top 10 músicas mais tocadas:**
+```sql
+SELECT TOP 10 TituloMusica, TotalReproducoes
+FROM #ContagemReproducoesPorMusica
+ORDER BY TotalReproducoes DESC;
+```
+
+**Auditoria de jobs de backup:**
+```sql
+EXEC ListJobsAndSchedules
+    @JobName    = 'BackupJob',
+    @DataInicial = '2024-01-01',
+    @DataFinal   = '2024-12-31';
+```
+
+**Visualização de dados mascarados (DDM):**
+```sql
+SELECT * FROM dbo.UserDM;
+```
+
+---
+
+## Diagrama ER
+
 [![Modelo Físico](database/01-modelagem/modelo-fisico.png)](database/01-modelagem/modelo-fisico.png)
+
+> Clique na imagem para visualizar em tamanho completo.
+
+---
+
+## Boas práticas adotadas
+
+- **Senhas:** nunca versionadas nos scripts — use os placeholders e substitua em produção
+- **Backup:** certificado e chave mestra do TDE devem ser exportados e guardados com segurança
+- **Permissões:** princípio do menor privilégio — cada usuário recebe apenas o acesso necessário
+- **Auditoria:** triggers e logs rastreiam alterações em dados sensíveis
+- **Performance:** monitoramento recomendado com `DBCC CHECKDB`, análise periódica de índices e partições
+- **Documentação:** todos os scripts contêm comentários explicando cada etapa
+
+---
+
+## Tecnologias utilizadas
+
+![SQL Server](https://img.shields.io/badge/SQL%20Server-2019-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
+![T-SQL](https://img.shields.io/badge/T--SQL-linguagem-0078D4?style=flat)
+![SSMS](https://img.shields.io/badge/SSMS-ferramenta-217346?style=flat)
+
+---
+
+## Equipe
+
+Projeto desenvolvido em equipe de 4 pessoas como trabalho prático da
+**Academia Database & Data Intelligence — Rumos**.
+
+| Membro | Responsabilidade principal |
+|---|---|
+| Felipe Guimarães Moraes | Modelagem ER, queries e relatórios, views, triggers e stored procedures |
+| + 3 colaboradores | Desenvolvimento conjunto do projeto |
+
+---
+
+## Documentação completa
+
+Consulte a [documentação técnica detalhada](docs/readme-docs.md) para links diretos e explicações de cada script.
+
+Para exemplos de perguntas de negócio respondidas com SQL, veja [insights de negócio](docs/insights-negocios.md).
