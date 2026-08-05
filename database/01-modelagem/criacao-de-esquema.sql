@@ -8,7 +8,7 @@ CREATE TABLE dbo.SongPlays
     LocationID INT NOT NULL,
     StartTime DATETIME NOT NULL,
     EndTime DATETIME NOT NULL,
-    StartTimeUTC DATETIMEOFFSET(7) NOT NULL, -- Horário UTC da reprodução
+    [StartTime UTC] DATETIMEOFFSET(7) NOT NULL, -- Horário UTC da reprodução
     Latitude NVARCHAR(20) NOT NULL,
     Longitude NVARCHAR(20) NOT NULL
 )
@@ -63,7 +63,7 @@ CREATE TABLE dbo.Users
     LastName NVARCHAR(50) NOT NULL,
     Gender NCHAR(1) NOT NULL,
     Email NVARCHAR(50) NOT NULL,
-    [Password] NVARCHAR(10) NOT NULL, -- Em produção, utilize hash seguro
+    [Password] NVARCHAR(50) NOT NULL, -- Em produção, utilize hash seguro
     BirthDate DATE NOT NULL,
     DateCreated DATE NOT NULL,
     LocationID INT NOT NULL
