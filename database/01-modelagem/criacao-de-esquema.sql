@@ -8,7 +8,7 @@ CREATE TABLE dbo.SongPlays
     LocationID INT NOT NULL,
     StartTime DATETIME NOT NULL,
     EndTime DATETIME NOT NULL,
-    [StartTime UTC] DATETIMEOFFSET(7) NOT NULL, -- Horário UTC da reprodução
+    StartTimeUTC DATETIMEOFFSET(7) NOT NULL, -- Horário UTC da reprodução
     Latitude NVARCHAR(20) NOT NULL,
     Longitude NVARCHAR(20) NOT NULL
 )
