@@ -26,13 +26,12 @@ Perguntas reais de negócio que a base de dados do MusicStreaming é capaz de re
 **Pergunta de negócio:** Quais conteúdos geram mais engajamento na plataforma?
 
 ```sql
-SELECT TOP 10
-    s.Title          AS Musica,
-    ar.Name          AS Artista,
+SELECT TOP 10 s.Title AS Musica,
+    ar.Name AS Artista,
     COUNT(sp.SongPlayID) AS TotalReproducoes
 FROM dbo.SongPlays sp
-JOIN dbo.Songs   s  ON s.SongID   = sp.SongID
-JOIN dbo.Artists ar ON ar.ArtistID = s.ArtistID
+    JOIN dbo.Songs s ON s.SongID = sp.SongID
+    JOIN dbo.Artists ar ON ar.ArtistID = s.ArtistID
 GROUP BY s.Title, ar.Name
 ORDER BY TotalReproducoes DESC;
 ```
@@ -46,13 +45,12 @@ ORDER BY TotalReproducoes DESC;
 **Pergunta de negócio:** Quem são os artistas âncora da plataforma?
 
 ```sql
-SELECT TOP 10
-    ar.Name              AS Artista,
+SELECT TOP 10 ar.Name AS Artista,
     COUNT(sp.SongPlayID) AS TotalReproducoes,
     COUNT(DISTINCT s.SongID) AS QtdMusicas
 FROM dbo.SongPlays sp
-JOIN dbo.Songs   s  ON s.SongID    = sp.SongID
-JOIN dbo.Artists ar ON ar.ArtistID = s.ArtistID
+    JOIN dbo.Songs s ON s.SongID = sp.SongID
+    JOIN dbo.Artists ar ON ar.ArtistID = s.ArtistID
 GROUP BY ar.Name
 ORDER BY TotalReproducoes DESC;
 ```
@@ -66,13 +64,12 @@ ORDER BY TotalReproducoes DESC;
 **Pergunta de negócio:** Quais gêneros devem receber mais investimento em catálogo?
 
 ```sql
-SELECT
-    g.Name               AS Genero,
+SELECT g.Name AS Genero,
     COUNT(sp.SongPlayID) AS TotalReproducoes,
     COUNT(DISTINCT s.SongID) AS QtdMusicas
 FROM dbo.SongPlays sp
-JOIN dbo.Songs s ON s.SongID   = sp.SongID
-JOIN dbo.Genre g ON g.GenreID  = s.GenreID
+    JOIN dbo.Songs s ON s.SongID = sp.SongID
+    JOIN dbo.Genre g ON g.GenreID = s.GenreID
 GROUP BY g.Name
 ORDER BY TotalReproducoes DESC;
 ```
@@ -86,12 +83,12 @@ ORDER BY TotalReproducoes DESC;
 **Pergunta de negócio:** O engajamento está crescendo, estável ou caindo ao longo do tempo?
 
 ```sql
-SELECT
-    YEAR(sp.StartTime)  AS Ano,
+SELECT YEAR(sp.StartTime) AS Ano,
     MONTH(sp.StartTime) AS Mes,
     COUNT(sp.SongPlayID) AS TotalReproducoes
 FROM dbo.SongPlays sp
-GROUP BY YEAR(sp.StartTime), MONTH(sp.StartTime)
+GROUP BY YEAR(sp.StartTime),
+    MONTH(sp.StartTime)
 ORDER BY Ano, Mes;
 ```
 
@@ -104,12 +101,11 @@ ORDER BY Ano, Mes;
 **Pergunta de negócio:** Onde está concentrada a audiência da plataforma?
 
 ```sql
-SELECT
-    l.Country            AS Pais,
+SELECT l.Country AS Pais,
     COUNT(sp.SongPlayID) AS TotalReproducoes,
     COUNT(DISTINCT sp.UserID) AS UsuariosAtivos
 FROM dbo.SongPlays sp
-JOIN dbo.Location l ON l.LocationID = sp.LocationID
+    JOIN dbo.Location l ON l.LocationID = sp.LocationID
 GROUP BY l.Country
 ORDER BY TotalReproducoes DESC;
 ```
@@ -123,16 +119,15 @@ ORDER BY TotalReproducoes DESC;
 **Pergunta de negócio:** Quais álbuns performam bem de forma consistente — não só pelo hit isolado?
 
 ```sql
-SELECT TOP 10
-    al.Name              AS Album,
-    ar.Name              AS Artista,
-    COUNT(DISTINCT s.SongID)  AS QtdFaixas,
-    COUNT(sp.SongPlayID)      AS TotalReproducoes,
+SELECT TOP 10 al.Name AS Album,
+    ar.Name AS Artista,
+    COUNT(DISTINCT s.SongID) AS QtdFaixas,
+    COUNT(sp.SongPlayID) AS TotalReproducoes,
     COUNT(sp.SongPlayID) / COUNT(DISTINCT s.SongID) AS MediaPorFaixa
 FROM dbo.Albums al
-JOIN dbo.Artists  ar ON ar.ArtistID = al.ArtistID
-JOIN dbo.Songs    s  ON s.AlbumID   = al.AlbumID
-JOIN dbo.SongPlays sp ON sp.SongID  = s.SongID
+    JOIN dbo.Artists ar ON ar.ArtistID = al.ArtistID
+    JOIN dbo.Songs s ON s.AlbumID = al.AlbumID
+    JOIN dbo.SongPlays sp ON sp.SongID = s.SongID
 GROUP BY al.Name, ar.Name
 HAVING COUNT(DISTINCT s.SongID) >= 3
 ORDER BY MediaPorFaixa DESC;
@@ -147,17 +142,15 @@ ORDER BY MediaPorFaixa DESC;
 **Pergunta de negócio:** Existe concentração de catálogo em poucas gravadoras — um risco para a plataforma?
 
 ```sql
-SELECT
-    lb.Name AS Gravadora,
-    COUNT(DISTINCT s.SongID)  AS QtdMusicas,
+SELECT lb.Name AS Gravadora,
+    COUNT(DISTINCT s.SongID) AS QtdMusicas,
     COUNT(DISTINCT al.AlbumID) AS QtdAlbuns,
     CAST(
-        COUNT(DISTINCT s.SongID) * 100.0
-        / SUM(COUNT(DISTINCT s.SongID)) OVER ()
-    AS DECIMAL(5,2)) AS PercentualCatalogo
+        COUNT(DISTINCT s.SongID) * 100.0 / SUM(COUNT(DISTINCT s.SongID)) OVER () AS DECIMAL(5, 2)
+    ) AS PercentualCatalogo
 FROM dbo.Labels lb
-JOIN dbo.Albums al ON al.LabelID = lb.LabelID
-JOIN dbo.Songs  s  ON s.AlbumID  = al.AlbumID
+    JOIN dbo.Albums al ON al.LabelID = lb.LabelID
+    JOIN dbo.Songs s ON s.AlbumID = al.AlbumID
 GROUP BY lb.Name
 ORDER BY QtdMusicas DESC;
 ```
@@ -171,12 +164,12 @@ ORDER BY QtdMusicas DESC;
 **Pergunta de negócio:** Qual é o ritmo de aquisição de usuários?
 
 ```sql
-SELECT
-    YEAR(u.DateCreated)  AS Ano,
+SELECT YEAR(u.DateCreated) AS Ano,
     MONTH(u.DateCreated) AS Mes,
-    COUNT(u.UserID)      AS NovosUsuarios
+    COUNT(u.UserID) AS NovosUsuarios
 FROM dbo.Users u
-GROUP BY YEAR(u.DateCreated), MONTH(u.DateCreated)
+GROUP BY YEAR(u.DateCreated),
+    MONTH(u.DateCreated)
 ORDER BY Ano, Mes;
 ```
 
@@ -189,9 +182,8 @@ ORDER BY Ano, Mes;
 **Pergunta de negócio:** Em que horas do dia os usuários mais consomem música?
 
 ```sql
-SELECT
-    DATEPART(HOUR, sp.StartTime) AS Hora,
-    COUNT(sp.SongPlayID)         AS TotalReproducoes
+SELECT DATEPART(HOUR, sp.StartTime) AS Hora,
+    COUNT(sp.SongPlayID) AS TotalReproducoes
 FROM dbo.SongPlays sp
 GROUP BY DATEPART(HOUR, sp.StartTime)
 ORDER BY TotalReproducoes DESC;
@@ -206,12 +198,11 @@ ORDER BY TotalReproducoes DESC;
 **Pergunta de negócio:** Usuários de quais países passam mais tempo na plataforma?
 
 ```sql
-SELECT
-    l.Country AS Pais,
+SELECT l.Country AS Pais,
     COUNT(sp.SongPlayID) AS TotalReproducoes,
     AVG(DATEDIFF(SECOND, sp.StartTime, sp.EndTime)) / 60 AS DuracaoMediaMinutos
 FROM dbo.SongPlays sp
-JOIN dbo.Location l ON l.LocationID = sp.LocationID
+    JOIN dbo.Location l ON l.LocationID = sp.LocationID
 GROUP BY l.Country
 ORDER BY DuracaoMediaMinutos DESC;
 ```
