@@ -1,0 +1,9 @@
+# Ambientes virtuais e variáveis de ambiente
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Power BI e arquivos temporários
+*.pbix.metabase
+*.DS_Store

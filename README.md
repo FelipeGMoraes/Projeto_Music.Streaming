@@ -28,7 +28,7 @@ Projeto_Music.Streaming/
 │   │   ├── insercao-de-dados.sql        # DML: dados de exemplo
 │   │   └── modelo-fisico.png            # Diagrama ER (modelo físico)
 │   ├── 02-queries-relatorios/
-│   │   └── consultas-e-relatorios.sql   # Queries analíticas e relatórios
+│   │   └── consultas-e-relatorios.md    # Relatório em Markdown com queries analíticas
 │   ├── 03-seguranca-automacao/
 │   │   ├── procedures-var-tde.sql       # Stored procedures, TDE, auditoria
 │   │   └── seguranca-agendamento.sql    # Usuários, permissões, DDM, jobs de backup
@@ -38,6 +38,14 @@ Projeto_Music.Streaming/
 ├── docs/
 │   ├── readme-docs.md                   # Documentação técnica detalhada
 │   └── insights-negocios.md             # Perguntas de negócio respondidas com SQL
+├── analise-python/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── requirements.txt
+│   ├── conexao.py
+│   ├── notebooks/
+│   │   └── analise_exploratoria.ipynb
+│   └── charts/
 └── README.md
 ```
 
@@ -65,9 +73,11 @@ database/01-modelagem/insercao-de-dados.sql
 ```
 
 **2. Consultas e relatórios**
-```sql
--- Relatórios analíticos prontos para uso
-database/02-queries-relatorios/consultas-e-relatorios.sql
+```text
+Relatório em Markdown com explicações e blocos SQL:
+database/02-queries-relatorios/consultas-e-relatorios.md
+
+Se preferir um script executável, crie `database/02-queries-relatorios/consultas-e-relatorios.sql` com os comandos SQL extraídos.
 ```
 
 **3. Segurança e automação**

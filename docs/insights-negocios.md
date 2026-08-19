@@ -1,4 +1,4 @@
-# Insights de negócio — MusicStreaming Database
+# Insights de negócio - MusicStreaming Database
 
 Perguntas reais de negócio que a base de dados do MusicStreaming é capaz de responder, com as queries T-SQL correspondentes baseadas no schema real do projeto.
 
@@ -116,7 +116,7 @@ ORDER BY TotalReproducoes DESC;
 
 ## 6. Quais álbuns têm a maior média de reproduções por faixa?
 
-**Pergunta de negócio:** Quais álbuns performam bem de forma consistente — não só pelo hit isolado?
+**Pergunta de negócio:** Quais álbuns performam bem de forma consistente - não só pelo hit isolado?
 
 ```sql
 SELECT TOP 10 al.Name AS Album,
@@ -139,7 +139,7 @@ ORDER BY MediaPorFaixa DESC;
 
 ## 7. Quais gravadoras têm mais músicas no catálogo?
 
-**Pergunta de negócio:** Existe concentração de catálogo em poucas gravadoras — um risco para a plataforma?
+**Pergunta de negócio:** Existe concentração de catálogo em poucas gravadoras - um risco para a plataforma?
 
 ```sql
 SELECT lb.Name AS Gravadora,
@@ -173,7 +173,7 @@ GROUP BY YEAR(u.DateCreated),
 ORDER BY Ano, Mes;
 ```
 
-**Por que importa:** curva de crescimento da base — métrica fundamental para avaliar saúde da plataforma.
+**Por que importa:** curva de crescimento da base - métrica fundamental para avaliar saúde da plataforma.
 
 ---
 
@@ -211,4 +211,4 @@ ORDER BY DuracaoMediaMinutos DESC;
 
 ---
 
-*Schema baseado em `database/01-modelagem/criacao-de-esquema.sql` — SQL Server 2019, T-SQL.*
+*Schema baseado em `database/01-modelagem/criacao-de-esquema.sql` - SQL Server 2019, T-SQL.*
