@@ -32,20 +32,20 @@ Projeto_Music.Streaming/
 │   └── charts/
 ├── database/
 │   ├── 01-modelagem/
-│   │   ├── criacao-de-esquema.sql       # DDL: tabelas, PKs, FKs, constraints
-│   │   ├── insercao-de-dados.sql        # DML: dados de exemplo
-│   │   └── modelo-fisico.png            # Diagrama ER (modelo físico)
+│   │   ├── criacao-de-esquema.sql
+│   │   ├── insercao-de-dados.sql
+│   │   └── modelo-fisico.png
 │   ├── 02-queries-relatorios/
-│   │   └── consultas-e-relatorios.md    # Relatório em Markdown com queries analíticas
+│   │   └── consultas-e-relatorios.md 
 │   ├── 03-seguranca-automacao/
-│   │   ├── procedures-var-tde.sql       # Stored procedures, TDE, auditoria
-│   │   └── seguranca-agendamento.sql    # Usuários, permissões, DDM, jobs de backup
+│   │   ├── procedures-var-tde.sql
+│   │   └── seguranca-agendamento.sql 
 │   └── 04-performance-gestao/
-│       ├── particionamento-compressao.sql  # Particionamento por data e compressão
-│       └── temp-tables-views-triggers.sql  # Views, triggers, tabelas temporárias
+│       ├── particionamento-compressao.sql
+│       └── temp-tables-views-triggers.sql
 ├── docs/
-│   ├── readme-docs.md                   # Documentação técnica detalhada
-│   └── insights-negocios.md             # Perguntas de negócio respondidas com SQL
+│   ├── readme-docs.md
+│   └── insights-negocios.md
 └── README.md
 ```
 

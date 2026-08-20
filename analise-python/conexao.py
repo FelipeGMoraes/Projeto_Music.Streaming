@@ -8,9 +8,7 @@ import urllib
 load_dotenv()
 
 def criar_engine_sql():
-    """
-    Lê as variáveis de ambiente e cria a conexão com o SQL Server.
-    """
+    #Lê as variáveis de ambiente e cria a conexão com o SQL Server.
     server = os.getenv('DB_SERVER')
     database = os.getenv('DB_DATABASE')
     
@@ -32,9 +30,7 @@ def criar_engine_sql():
     return engine
 
 def obter_dados(query):
-    """
-    Recebe uma query SQL, conecta no banco e retorna um DataFrame do pandas.
-    """
+    #Recebe uma query SQL, conecta no banco e retorna um DataFrame do pandas.
     engine = criar_engine_sql()
     try:
         # O pandas usa a engine para rodar a query e já converte o resultado em DataFrame
@@ -47,7 +43,7 @@ def obter_dados(query):
 # --- Área de Teste Rápido ---
 if __name__ == "__main__":
     print("Testando conexão...")
-    query_teste = "SELECT TOP 5 * FROM Songs;" # Adapte o nome da tabela se precisar
+    query_teste = "SELECT TOP 5 * FROM Songs;"
     df_teste = obter_dados(query_teste)
     
     if df_teste is not None:
