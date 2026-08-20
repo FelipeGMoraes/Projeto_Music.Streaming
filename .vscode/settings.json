@@ -1,8 +1,0 @@
-{
-  "python.defaultInterpreterPath": "${workspaceFolder}/analise-python/venv/Scripts/python.exe",
-  "python.analysis.extraPaths": [
-    "${workspaceFolder}/analise-python"
-  ],
-  "python.terminal.activateEnvironment": true,
-  "jupyter.notebookFileRoot": "${workspaceFolder}/analise-python/notebooks"
-}
