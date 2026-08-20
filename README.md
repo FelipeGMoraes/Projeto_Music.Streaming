@@ -22,6 +22,14 @@ O projeto cobre o ciclo completo de gestão de banco de dados em ambiente de pro
 
 ```
 Projeto_Music.Streaming/
+├── analise-python/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── requirements.txt
+│   ├── conexao.py
+│   ├── notebooks/
+│   │   └── analise_exploratoria.ipynb
+│   └── charts/
 ├── database/
 │   ├── 01-modelagem/
 │   │   ├── criacao-de-esquema.sql       # DDL: tabelas, PKs, FKs, constraints
@@ -38,47 +46,29 @@ Projeto_Music.Streaming/
 ├── docs/
 │   ├── readme-docs.md                   # Documentação técnica detalhada
 │   └── insights-negocios.md             # Perguntas de negócio respondidas com SQL
-├── analise-python/
-│   ├── .env.example
-│   ├── .gitignore
-│   ├── requirements.txt
-│   ├── conexao.py
-│   ├── notebooks/
-│   │   └── analise_exploratoria.ipynb
-│   └── charts/
 └── README.md
 ```
 
 ---
 
-## Pré-requisitos
-
-- SQL Server 2019 ou superior
-- SQL Server Management Studio (SSMS) ou ferramenta equivalente
-- Permissões de administrador para criação de banco, usuários e jobs
-
----
-
 ## Como executar
 
-Execute os scripts na ordem abaixo:
+### 1. Banco de dados (SQL Server)
 
-**1. Modelagem e dados**
 ```sql
--- Criar tabelas e relacionamentos
-database/01-modelagem/criacao-de-esquema.sql
-
--- Popular com dados de exemplo
-database/01-modelagem/insercao-de-dados.sql
+CREATE DATABASE [Music.Streaming];
+GO
+USE [Music.Streaming];
+GO
+-- Em seguida, execute na ordem:
+-- database/01-modelagem/criacao-de-esquema.sql
+-- database/01-modelagem/insercao-de-dados.sql
 ```
 
-**2. Consultas e relatórios**
-```text
+### 2. Consultas e relatórios
+
 Relatório em Markdown com explicações e blocos SQL:
-database/02-queries-relatorios/consultas-e-relatorios.md
-
-Se preferir um script executável, crie `database/02-queries-relatorios/consultas-e-relatorios.sql` com os comandos SQL extraídos.
-```
+`database/02-queries-relatorios/consultas-e-relatorios.md`
 
 **3. Segurança e automação**
 ```sql
@@ -165,6 +155,17 @@ Projeto desenvolvido em equipe de 4 pessoas como trabalho prático da
 
 ## Documentação completa
 
-Consulte a [documentação técnica detalhada](docs/readme-docs.md) para links diretos e explicações de cada script.
+Consulte a [documentação técnica](docs/readme-docs.md) para o índice de cada script.
 
-Para exemplos de perguntas de negócio respondidas com SQL, veja [insights de negócio](docs/insights-negocios.md).
+Para perguntas de negócio respondidas com SQL, veja [insights de negócio](docs/insights-negocios.md).
+
+---
+
+## Extensão individual
+
+Após a conclusão do trabalho em grupo na Rumos, **Felipe Guimarães Moraes** adicionou uma camada de análise de dados:
+
+- Perguntas de negócio e queries em [docs/insights-negocios.md](docs/insights-negocios.md)
+- Análise em Python (Pandas) em [analise-python/](analise-python/README.md)
+
+Essa pasta **não faz parte da entrega original da equipe**. O restante do repositório (`database/` e este README) corresponde ao projeto acadêmico em grupo.

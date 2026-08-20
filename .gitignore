@@ -3,7 +3,23 @@ venv/
 .env
 *.pyc
 __pycache__/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
 
 # Power BI e arquivos temporários
+*.pbix
 *.pbix.metabase
 *.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+
+guia-portfolio.md

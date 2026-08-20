@@ -1,3 +1,10 @@
+-- Music Streaming — Criação de esquema (DDL)
+
+CREATE DATABASE [Music.Streaming]; 
+GO
+
+USE [Music.Streaming];
+GO
 
 -- Tabela para registrar reproduções de músicas
 CREATE TABLE dbo.SongPlays
