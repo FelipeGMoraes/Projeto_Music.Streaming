@@ -1,10 +1,62 @@
-# MusicStreaming Database
+# Music Streaming: Data Analytics & Database Architecture
 
-Banco de dados relacional completo simulando o backend de dados de uma plataforma de **music streaming 24/7**, desenvolvido com SQL Server 2019 e T-SQL.
+Banco de dados relacional completo e simulado de uma plataforma de **music streaming 24/7**. 
 
-O projeto cobre o ciclo completo de gestão de banco de dados em ambiente de produção: modelagem relacional, extração de insights de negócio, segurança enterprise e otimização de performance.
+Este repositório reflete a evolução de um projeto de dados de ponta a ponta: inicia-se com a extração de inteligência de negócios através de **Análise de Dados em Python (2026)**, construída sobre uma fundação sólida de **Engenharia de Banco de Dados SQL (2022)**.
+
+> **Guia de Leitura do Repositório:** 
+> * **Parte 1:** Apresenta a minha recente extensão individual focada em **Análise de Dados (Python/Pandas)**.
+> * **Parte 2:** Documenta o projeto original de **Arquitetura e Engenharia de Banco de Dados (DBA/SQL Server)**, que serve como base para as análises.
 
 ---
+
+## 1. Análise Exploratória e Business Intelligence (Expansão 2026)
+*Camada analítica independente desenvolvida para responder a perguntas estratégicas de negócio.*
+
+As regras de negócio mapeadas no banco relacional foram traduzidas e otimizadas para processamento em DataFrames Pandas, focando no comportamento global do usuário e no desempenho do catálogo musical.
+
+**[Acesse o Notebook Principal de Análise (Jupyter)](analise-python/notebooks/analise_exploratoria.ipynb)** | **🔗 [Leia o Guia](analise-python/README.md)**
+
+### Desafios de Negócio Solucionados (Pandas)
+Foram desenvolvidos scripts em Python para responder a 10 métricas essenciais do produto:
+
+*   **Comportamento do Usuário:** Horários de pico de reproduções, duração média das sessões de escuta por país e volume de novos cadastros mensais.
+*   **Desempenho de Catálogo:** Top 10 músicas e artistas mais reproduzidos, gêneros mais consumidos, ranking de reproduções por país e domínio das gravadoras.
+
+### Destaque Analítico (Showroom de Código)
+> **Insight Estratégico:** Identificação de retenção e engajamento real mapeando a duração exata das sessões de escuta por país, cruzando logs de reprodução com dados geográficos e cálculos de delta de tempo.
+
+```python
+duracao_sessao_pais = (
+    pd.merge(df_songplays, df_location, on='LocationID', how='inner')
+    .assign(
+        Inicio=lambda df: pd.to_datetime(df['StartTime']),
+        Fim=lambda df: pd.to_datetime(df['EndTime']),
+        DuracaoMinutos=lambda df: (df['Fim'] - df['Inicio']).dt.total_seconds() / 60
+    )
+    .groupby('Country')
+    .agg(
+        TotalReproducoes=('SongPlayID', 'count'),
+        DuracaoMediaMinutos=('DuracaoMinutos', 'mean')
+    )
+    .reset_index()
+    .rename(columns= {'Country' : 'Pais'})
+    .assign(DuracaoMediaMinutos=lambda df: df['DuracaoMediaMinutos'].round(2))
+    .sort_values(by='DuracaoMediaMinutos', ascending=False)
+)
+
+duracao_sessao_pais
+```
+
+## 2. Arquitetura e Engenharia de Banco de Dados (Projeto Original 2022)
+
+O projeto original cobre o ciclo completo de gestão de banco de dados em ambiente de produção: modelagem relacional, extração de insights de negócio, segurança e otimização de performance.
+
+## Documentação completa
+
+Consulte a [documentação técnica](docs/readme-docs.md) para o índice de cada script.
+
+Para perguntas de negócio respondidas com SQL, veja [insights de negócio](docs/insights-negocios.md).
 
 ## Destaques técnicos
 
@@ -92,19 +144,11 @@ database/04-performance-gestao/temp-tables-views-triggers.sql
 
 ## Exemplos de uso
 
-### 10. Qual a duração média das sessões de escuta por país?
-
-**Pergunta de negócio:** Usuários de quais países passam mais tempo na plataforma?
-**Por que importa:** tempo de sessão é indicador de engajamento real, não só de cliques.
-
+**Top 10 músicas mais tocadas:**
 ```sql
-SELECT l.Country AS Pais,
-    COUNT(sp.SongPlayID) AS TotalReproducoes,
-    AVG(DATEDIFF(SECOND, sp.StartTime, sp.EndTime)) / 60 AS DuracaoMediaMinutos
-FROM dbo.SongPlays sp
-    JOIN dbo.Location l ON l.LocationID = sp.LocationID
-GROUP BY l.Country
-ORDER BY DuracaoMediaMinutos DESC;
+SELECT TOP 10 TituloMusica, TotalReproducoes
+FROM #ContagemReproducoesPorMusica
+ORDER BY TotalReproducoes DESC;
 ```
 
 **Auditoria de jobs de backup:**
@@ -146,6 +190,9 @@ SELECT * FROM dbo.UserDM;
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2019-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
 ![T-SQL](https://img.shields.io/badge/T--SQL-linguagem-0078D4?style=flat)
 ![SSMS](https://img.shields.io/badge/SSMS-ferramenta-217346?style=flat)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat&logo=jupyter&logoColor=white)
 
 ---
 
@@ -160,20 +207,3 @@ Projeto desenvolvido em equipe de 4 pessoas como trabalho prático da
 | + 3 colaboradores | Desenvolvimento conjunto do projeto |
 
 ---
-
-## Documentação completa
-
-Consulte a [documentação técnica](docs/readme-docs.md) para o índice de cada script.
-
-Para perguntas de negócio respondidas com SQL, veja [insights de negócio](docs/insights-negocios.md).
-
----
-
-## Extensão individual
-
-Após a conclusão do trabalho em grupo na Rumos, **Felipe Guimarães Moraes** adicionou uma camada de análise de dados:
-
-- Perguntas de negócio e queries em [docs/insights-negocios.md](docs/insights-negocios.md)
-- Análise em Python (Pandas) em [analise-python/](analise-python/README.md)
-
-Essa pasta **não faz parte da entrega original da equipe**. O restante do repositório (`database/` e este README) corresponde ao projeto acadêmico em grupo.
